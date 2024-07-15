@@ -33,8 +33,6 @@ app.config['SWAGGER'] = {
     all the documentation will be shown below',
     'uiversion': 3}
 
-Swagger(app)
-
 if __name__ == "__main__":
 
     host = getenv('HBNB_API_HOST', default='0.0.0.0')
