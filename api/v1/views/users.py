@@ -45,3 +45,17 @@ def create_user():
     storage.save()
     return jsonify(new_user.to_dict()), 201
 
+@app_views.route('/users/<user_id>', methods=['PUT'], strict_slashes=False)
+def update_user(user_id):
+    """Updates a User object"""
+    user = storage.get('User', user_id)
+    if user is None:
+        abort(404)
+    data = request.get_json()
+    if data is None:
+        abort(400, description='Not a JSON')
+    for key, value in data.items():
+        if key not in ['id', 'email', 'created_at', 'updated_at']:
+            setattr(user, key, value)
+    storage.save()
+    return jsonify(user.to_dict()), 200
