@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """
-Creates new view for State obj that handles all the restful API
+Creates new view for State obj that handles the restful API
 """
 from api.v1.views import app_views
 from flask import jsonify, request, abort
