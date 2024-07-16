@@ -48,25 +48,27 @@ def delete_place(place_id):
 def create_place(city_id):
     """ Creates a Place """
     logging.debug(f"Creating place in city with city_id: {city_id}")
+    
+    # Check if Content-Type is application/json
     if not request.is_json:
-        logging.error("Unsupported Media Type")
-        abort(415, "Unsupported Media Type")
-
+        logging.error("Unsupported Media Type - Expecting application/json")
+        abort(415, "Unsupported Media Type - Expecting application/json")
+    
     city = storage.get(City, city_id)
     if not city:
         logging.error("City not found")
         abort(404)
-
+    
     try:
         data = request.get_json(force=True)
     except Exception as e:
         logging.error(f"Invalid JSON: {e}")
         abort(400, "Not a JSON")
-
+    
     if 'user_id' not in data:
         logging.error("Missing user_id")
         abort(400, "Missing user_id")
-
+    
     user = storage.get(User, data['user_id'])
     if not user:
         logging.error("User not found")
@@ -74,7 +76,7 @@ def create_place(city_id):
     if 'name' not in data:
         logging.error("Missing name")
         abort(400, "Missing name")
-
+    
     data['city_id'] = city_id
     place = Place(**data)
     place.save()
