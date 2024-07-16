@@ -24,6 +24,7 @@ def page_not_foun(error):
     """ Loads a custom 404 page not found """
     return (jsonify({"error": "Not found"}), 404)
 
+
 if __name__ == "__main__":
 
     host = getenv('HBNB_API_HOST', default='0.0.0.0')
