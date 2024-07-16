@@ -70,7 +70,7 @@ class FileStorage:
         self.reload()
 
     def get(self, cls, id):
-        """ retreives data"""
+        """ retrieves data"""
         if cls in classes.values() and id and type(id) == str:
             d_obj = self.all(cls)
             for key, value in d_obj.items():
