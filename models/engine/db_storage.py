@@ -15,13 +15,17 @@ from os import getenv
 import sqlalchemy
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
+from sqlalchemy.ext.declarative import declarative_base
 
 classes = {"Amenity": Amenity, "City": City,
            "Place": Place, "Review": Review, "State": State, "User": User}
 
 
+Base = declarative_base()
+
+
 class DBStorage:
-    """interaacts with the MySQL database"""
+    """interacts with the MySQL database"""
     __engine = None
     __session = None
 
@@ -32,11 +36,14 @@ class DBStorage:
         HBNB_MYSQL_HOST = getenv('HBNB_MYSQL_HOST')
         HBNB_MYSQL_DB = getenv('HBNB_MYSQL_DB')
         HBNB_ENV = getenv('HBNB_ENV')
+
         self.__engine = create_engine('mysql+mysqldb://{}:{}@{}/{}'.
                                       format(HBNB_MYSQL_USER,
                                              HBNB_MYSQL_PWD,
                                              HBNB_MYSQL_HOST,
-                                             HBNB_MYSQL_DB))
+                                             HBNB_MYSQL_DB),
+                                      pool_size=10, max_overflow=20)
+
         if HBNB_ENV == "test":
             Base.metadata.drop_all(self.__engine)
 
@@ -69,7 +76,7 @@ class DBStorage:
         Base.metadata.create_all(self.__engine)
         sess_factory = sessionmaker(bind=self.__engine, expire_on_commit=False)
         Session = scoped_session(sess_factory)
-        self.__session = Session
+        self.__session = Session()
 
     def close(self):
         """call remove() method on the private session attribute"""
@@ -77,15 +84,15 @@ class DBStorage:
 
     def get(self, cls, id):
         """retrieves data"""
-        if cls in classes.values() and id and type(id) == str:
+        if cls in classes.values() and id and isinstance(id, str):
             d_obj = self.all(cls)
-            for key, value in d_obj.items():
-                if key.split(".")[1] == id:
+            for value in d_obj.values():
+                if value.id == id:
                     return value
         return None
-    
+
     def count(self, cls=None):
-        """counts"""
+        """counts number of objects in storage."""
         data = self.all(cls)
         if cls in classes.values():
             data = self.all(cls)

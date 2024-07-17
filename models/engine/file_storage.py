@@ -29,22 +29,20 @@ class FileStorage:
         if cls is not None:
             new_dict = {}
             for key, value in self.__objects.items():
-                if cls == value.__class__ or cls == value.__class__.__name__:
+                if isinstance(value, cls):
                     new_dict[key] = value
             return new_dict
         return self.__objects
 
     def new(self, obj):
         """sets in __objects the obj with key <obj class name>.id"""
-        if obj is not None:
-            key = obj.__class__.__name__ + "." + obj.id
-            self.__objects[key] = obj
+        self.__objects.update({obj.to_dict()['__class__'] + '.' + obj.id: obj})
 
     def save(self):
         """serializes __objects to the JSON file (path: __file_path)"""
         json_objects = {}
         for key in self.__objects:
-            json_objects[key] = self.__objects[key].to_dict()
+            json_objects[key] = self.__objects[key].to_dict(False)
         with open(self.__file_path, 'w') as f:
             json.dump(json_objects, f)
 
@@ -55,13 +53,13 @@ class FileStorage:
                 jo = json.load(f)
             for key in jo:
                 self.__objects[key] = classes[jo[key]["__class__"]](**jo[key])
-        except:
+        except Exception as ex:
             pass
 
     def delete(self, obj=None):
         """delete obj from __objects if it’s inside"""
         if obj is not None:
-            key = obj.__class__.__name__ + '.' + obj.id
+            key = obj.to_dict()['__class__'] + '.' + obj.id
             if key in self.__objects:
                 del self.__objects[key]
 
@@ -70,17 +68,17 @@ class FileStorage:
         self.reload()
 
     def get(self, cls, id):
-        """ retreives data"""
-        if cls in classes.values() and id and type(id) == str:
+        """returns the object with the given id and class"""
+        if cls in classes.values() and id and isinstance(id, str):
             d_obj = self.all(cls)
-            for key, value in d_obj.items():
-                if key.split(".")[1] == id:
+            for value in d_obj.values():
+                if value.id == id:
                     return value
         return None
 
     def count(self, cls=None):
-        """counts duh"""
+        """returns the number of objects in __objects"""
         data = self.all(cls)
         if cls in classes.values():
             data = self.all(cls)
-        return len(data)
+            return len(data)
