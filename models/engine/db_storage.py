@@ -21,7 +21,7 @@ classes = {"Amenity": Amenity, "City": City,
 
 
 class DBStorage:
-    """interaacts with the MySQL database"""
+    """interacts with the MySQL database"""
     __engine = None
     __session = None
 
@@ -77,13 +77,13 @@ class DBStorage:
 
     def get(self, cls, id):
         """retrieves data"""
-        if cls in classes.values() and id and type(id) == str:
+        if cls in classes.values() and id and isinstance(id, str):
             d_obj = self.all(cls)
             for value in d_obj.values():
-                if (value.id == id):
+                if value.id == id:
                     return value
         return None
-    
+
     def count(self, cls=None):
         """counts number of objects in storage."""
         data = self.all(cls)
