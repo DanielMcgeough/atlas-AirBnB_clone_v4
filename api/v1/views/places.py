@@ -48,66 +48,47 @@ def delete_place(place_id):
     return jsonify({}), 200
 
 
-@app_views.route('/cities/<city_id>/places', methods=['POST'], strict_slashes=False)
-def create_place(city_id):
-    """ Creates a Place """
-    logging.debug(f"Creating place in city with city_id: {city_id}")
-    if not request.is_json:
-        logging.error("Bad Request")
-        abort(400, "Bad Request")
-
+@app_views.route(
+        '/cities/<city_id>/places', methods=['POST'], strict_slashes=False)
+def post_place(city_id):
+    """
+    Creates a new place
+    """
     city = storage.get(City, city_id)
     if not city:
-        logging.error("City not found")
         abort(404)
-
-    try:
-        data = request.get_json(force=True)
-    except Exception as e:
-        logging.error(f"Invalid JSON: {e}")
-        abort(400, "Not a JSON")
-
+    if not request.is_json:  # check for malformed request
+        abort(400, 'Not a JSON')
+    data = request.get_json()
+    if 'name' not in data:
+        abort(400, 'Missing name')
     if 'user_id' not in data:
-        logging.error("Missing user_id")
-        abort(400, "Missing user_id")
-
+        abort(400, 'Missing user_id')
     user = storage.get(User, data['user_id'])
     if not user:
-        logging.error("User not found")
-        abort(404)
-    if 'name' not in data:
-        logging.error("Missing name")
-        abort(400, "Missing name")
-
+        abort(404)  # No valid user
     data['city_id'] = city_id
     place = Place(**data)
-    place.save()
-    logging.debug(f"Place created with data: {data}")
-    return jsonify(place.to_dict()), 201
+    storage.save()
+    place_json = place.to_dict()
+    return jsonify(place_json), 201
 
 
 @app_views.route('/places/<place_id>', methods=['PUT'], strict_slashes=False)
-def update_place(place_id):
-    """ Updates a Place object """
-    logging.debug(f"Updating place with place_id: {place_id}")
+def put_place(place_id):
+    """
+    Updates a specific place by ID
+    """
     place = storage.get(Place, place_id)
     if not place:
-        logging.error("Place not found")
         abort(404)
-    if not request.is_json:
-        logging.error("Unsupported Media Type")
-        abort(415, "Unsupported Media Type")
-
-    try:
-        data = request.get_json(force=True)
-    except Exception as e:
-        logging.error(f"Invalid JSON: {e}")
-        abort(400, "Not a JSON")
-
-    ignored_keys = ['id', 'user_id', 'city_id', 'created_at', 'updated_at']
+    if not request.is_json:  # check for malformed request
+        abort(400, 'Not a JSON')
+    data = request.get_json()
+    if not data:
+        abort(400, 'Not a JSON')
     for key, value in data.items():
-        if key not in ignored_keys:
+        if key not in ['id', 'user_id', 'city_id', 'created_at', 'updated_at']:
             setattr(place, key, value)
-    place.save()
-    logging.debug(f"Place with place_id: {place_id} updated with data: {data}")
+    storage.save()
     return jsonify(place.to_dict()), 200
