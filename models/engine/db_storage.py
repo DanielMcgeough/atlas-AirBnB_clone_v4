@@ -20,7 +20,9 @@ from sqlalchemy.ext.declarative import declarative_base
 classes = {"Amenity": Amenity, "City": City,
            "Place": Place, "Review": Review, "State": State, "User": User}
 
+
 Base = declarative_base()
+
 
 class DBStorage:
     """interacts with the MySQL database"""
