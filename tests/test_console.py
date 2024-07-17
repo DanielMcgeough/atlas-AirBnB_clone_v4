@@ -12,6 +12,7 @@ HBNBCommand = console.HBNBCommand
 
 class TestConsoleDocs(unittest.TestCase):
     """Class for testing documentation of the console"""
+
     def test_pycodestyle_conformance_console(self):
         """Test that console.py conforms to pycodestyle (formerly pep8)."""
         style = pycodestyle.StyleGuide(quiet=True)
@@ -20,7 +21,7 @@ class TestConsoleDocs(unittest.TestCase):
                          "Found code style errors (and warnings).")
 
     def test_pycodestyle_conformance_test_console(self):
-        """Test that tests/test_console.py conforms to pycodestyle (formerly pep8)."""
+        """ pycodestyle tests for 'tests/test_console.py """
         style = pycodestyle.StyleGuide(quiet=True)
         result = style.check_files(['tests/test_console.py'])
         self.assertEqual(result.total_errors, 0,
