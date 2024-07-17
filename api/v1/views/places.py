@@ -11,7 +11,10 @@ import logging
 logging.basicConfig(level=logging.DEBUG)
 
 
-@app_views.route('/cities/<city_id>/places', methods=['GET'], strict_slashes=False)
+@app_views.route(
+        '/cities/<city_id>/places',
+        methods=['GET'],
+        strict_slashes=False)
 def get_places(city_id):
     """ Retrieves the list of all Place objects of a City """
     logging.debug(f"Retrieving places for city_id: {city_id}")
@@ -34,7 +37,10 @@ def get_place(place_id):
     return jsonify(place.to_dict())
 
 
-@app_views.route('/places/<place_id>', methods=['DELETE'], strict_slashes=False)
+@app_views.route(
+        '/places/<place_id>',
+        methods=['DELETE'],
+        strict_slashes=False)
 def delete_place(place_id):
     """ Deletes a Place object """
     logging.debug(f"Deleting place with place_id: {place_id}")
