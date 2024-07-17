@@ -29,24 +29,22 @@ class FileStorage:
         if cls is not None:
             new_dict = {}
             for key, value in self.__objects.items():
-                if cls == value.__class__ or cls == value.__class__.__name__:
+                if isinstance(value, cls):
                     new_dict[key] = value
             return new_dict
         return self.__objects
 
     def new(self, obj):
         """sets in __objects the obj with key <obj class name>.id"""
-        if obj is not None:
-            key = obj.__class__.__name__ + "." + obj.id
-            self.__objects[key] = obj
+        self.__objects.update({obj.to_dict()['__class__'] + '.' + obj.id: obj})
 
     def save(self):
         """serializes __objects to the JSON file (path: __file_path)"""
-        json_objects = {}
-        for key in self.__objects:
-            json_objects[key] = self.__objects[key].to_dict(False)
         with open(self.__file_path, 'w') as f:
-            json.dump(json_objects, f)
+            temp{}
+            for key, val in self.__objects.items():
+                temp[key] = val.to_dict()
+                json.dump(temp, f)
 
     def reload(self):
         """deserializes the JSON file to __objects"""
@@ -61,7 +59,7 @@ class FileStorage:
     def delete(self, obj=None):
         """delete obj from __objects if it’s inside"""
         if obj is not None:
-            key = obj.__class__.__name__ + '.' + obj.id
+           key = obj.to_dict()['__class__'] + '.' + obj.id
             if key in self.__objects:
                 del self.__objects[key]
 
@@ -71,18 +69,16 @@ class FileStorage:
 
     def get(self, cls, id):
         """returns the object with the given id and class"""
-        if cls is not None and id is not None:
-            key = cls.__name__ + "." + id
-            if key in self.__objects:
-                return self.__objects[key]
+        if cls in classes.values() and id and isinstance(id, str):
+            d_obj = self.all(cls)
+            for value in d_obj.values():
+                if value.id == id:
+                    return value
         return None
 
     def count(self, cls=None):
         """returns the number of objects in __objects"""
-        if cls is not None:
-            count = 0
-            for key in self.__objects:
-                if self.__objects[key].__class__ == cls:
-                    count += 1
-            return count
-        return len(self.__objects)
+        data = self.all(cls)
+        if cls in classes.values():
+            data = self.all(cls)
+            return len(data)
