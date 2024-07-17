@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 #!/usr/bin/python3
 """
 Contains the FileStorage class
@@ -45,7 +44,7 @@ class FileStorage:
         """serializes __objects to the JSON file (path: __file_path)"""
         json_objects = {}
         for key in self.__objects:
-            json_objects[key] = self.__objects[key].to_dict()
+            json_objects[key] = self.__objects[key].to_dict(False)
         with open(self.__file_path, 'w') as f:
             json.dump(json_objects, f)
 
@@ -56,78 +55,7 @@ class FileStorage:
                 jo = json.load(f)
             for key in jo:
                 self.__objects[key] = classes[jo[key]["__class__"]](**jo[key])
-        except:
-            pass
-
-    def delete(self, obj=None):
-        """delete obj from __objects if it’s inside"""
-        if obj is not None:
-            key = obj.__class__.__name__ + '.' + obj.id
-            if key in self.__objects:
-                del self.__objects[key]
-
-    def close(self):
-        """call reload() method for deserializing the JSON file to objects"""
-        self.reload()
-=======
-#!/usr/bin/python3
-"""
-Contains the FileStorage class
-"""
-
-import json
-from models.amenity import Amenity
-from models.base_model import BaseModel
-from models.city import City
-from models.place import Place
-from models.review import Review
-from models.state import State
-from models.user import User
-
-classes = {"Amenity": Amenity, "BaseModel": BaseModel, "City": City,
-           "Place": Place, "Review": Review, "State": State, "User": User}
-
-
-class FileStorage:
-    """serializes instances to a JSON file & deserializes back to instances"""
-
-    # string - path to the JSON file
-    __file_path = "file.json"
-    # dictionary - empty but will store all objects by <class name>.id
-    __objects = {}
-
-    def all(self, cls=None):
-        """returns the dictionary __objects"""
-        if cls is not None:
-            new_dict = {}
-            for key, value in self.__objects.items():
-                if cls == value.__class__ or cls == value.__class__.__name__:
-                    new_dict[key] = value
-            return new_dict
-        return self.__objects
-
-    def new(self, obj):
-        """sets in __objects the obj with key <obj class name>.id"""
-        if obj is not None:
-            key = obj.__class__.__name__ + "." + obj.id
-            self.__objects[key] = obj
-
-    def save(self):
-        """serializes __objects to the JSON file (path: __file_path)"""
-        json_objects = {}
-        for key in self.__objects:
-            json_objects[key] = self.__objects[key].to_dict()
-        with open(self.__file_path, 'w') as f:
-            json.dump(json_objects, f)
-
-    def reload(self):
-        """deserializes the JSON file to __objects"""
-        try:
-            with open(self.__file_path, 'r') as f:
-                jo = json.load(f)
-            for key in jo:
-                self.__objects[key] = classes[jo[key]["__class__"]](**jo[key])
-        except:
+        except Exception as ex:
             pass
 
     def delete(self, obj=None):
@@ -142,18 +70,19 @@ class FileStorage:
         self.reload()
 
     def get(self, cls, id):
-        """ retreives data"""
-        if cls in classes.values() and id and type(id) == str:
-            d_obj = self.all(cls)
-            for key, value in d_obj.items():
-                if key.split(".")[1] == id:
-                    return value
+        """returns the object with the given id and class"""
+        if cls is not None and id is not None:
+            key = cls.__name__ + "." + id
+            if key in self.__objects:
+                return self.__objects[key]
         return None
 
     def count(self, cls=None):
-        """counts duh"""
-        data = self.all(cls)
-        if cls in classes.values():
-            data = self.all(cls)
-        return len(data)
->>>>>>> master
+        """returns the number of objects in __objects"""
+        if cls is not None:
+            count = 0
+            for key in self.__objects:
+                if self.__objects[key].__class__ == cls:
+                    count += 1
+            return count
+        return len(self.__objects)
