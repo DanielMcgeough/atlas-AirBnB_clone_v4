@@ -1,5 +1,7 @@
 # AirBnB Clone - The Console
 The console is the first segment of the AirBnB project at Holberton School that will collectively cover fundamental concepts of higher level programming. The goal of AirBnB project is to eventually deploy our server a simple copy of the AirBnB Website(HBnB). A command interpreter is created in this segment to manage objects for the AirBnB(HBnB) website.
+The goal of the V4 version of the Airbnb project is to add Web Dynamism to the project. Web dynamism refers to the ability of a website to change and respond to user interactions or external data without requiring a full page reload. This creates a more interactive and engaging user experience. JavaScript is the language we will use to create this dynamic way of interacting with
+a web page and realizing DOM manipulation without a reload.
 
 #### Functionalities of this command interpreter:
 * Create a new object (ex: a new User or a new Place)
@@ -162,8 +164,8 @@ David Ovalle - [Github](https://github.com/Nukemenonai) / [Twitter](https://twit
 Second part of Airbnb: Joann Vuong
 
 v4:
-Danny McGeough
-Davey Hays
-changes can be made now
+Danny McGeough - [Github](https://github.com/DanielMcgeough) / [Email](danny.mcgeough@gmail.com)
+Davey Hays - [Github](https://github.com/DaveyCHaysIII) / [Email](david.c.hays.iii@gmail.com)
+
 ## License
 Public Domain. No copy write protection. 
