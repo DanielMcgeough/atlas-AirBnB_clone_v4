@@ -1,6 +1,7 @@
 .filters {
     background-color: white;
     height: 70px;
+<<<<<<< HEAD
     border: 1px solid #DDDDDD;
     border-radius: 4px;
     display: flex;  
@@ -21,5 +22,28 @@
     
 }
 .filters button:hover {
+=======
+    width: 100%;
+    border: 1px solid #DDDDDD;
+    border-radius: 4px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+section.filters button{
+    font-size: 18px;
+    color: white;
+    background-color: #FF5A5F;
+    height: 48px;
+    border: 0px;
+    border-radius: 4px;
+    width: 20%;
+    margin-right: 30px;
+    opacity: 1;
+}
+
+section.filters button:hover {
+>>>>>>> 8ccf1ad752188b67c8e49134b6a766b15f525575
     opacity: 0.9;
 }

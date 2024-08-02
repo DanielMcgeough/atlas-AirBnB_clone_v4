@@ -1,1 +1,14 @@
+<<<<<<< HEAD
 jzamora5
+=======
+DanielMcgeough reviwed by Ivonne Lopez
+Concerns:
+1. It would be better to indent more so it's easier to read.
+2. The docstring for the count method could be more descriptive. Great job overall!
+
+Response:
+1. The nature of pythong usually means indenting more could create
+extra problems and I wouldn't feel comfortable adding in ad hoc spacing
+to a very fraught and overworked list of methods.
+2. Count method docstring will be modified.
+>>>>>>> 8ccf1ad752188b67c8e49134b6a766b15f525575
