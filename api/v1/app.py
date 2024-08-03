@@ -28,6 +28,6 @@ def page_not_foun(error):
 if __name__ == "__main__":
 
     host = getenv('HBNB_API_HOST', default='0.0.0.0')
-    port = int(getenv('HBNB_API_PORT', default=5000))
+    port = int(getenv('HBNB_API_PORT', default=5001))
 
     app.run(host, port, threaded=True)
