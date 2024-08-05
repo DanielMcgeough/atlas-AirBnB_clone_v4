@@ -28,12 +28,12 @@ def hbnb_filters(the_id=None):
     """
     handles request to custom template with states, cities & amentities
     """
-    state_objs = storage.all('State').values()
+    state_objs = storage.all(State).values()
     states = dict([state.name, state] for state in state_objs)
-    amens = storage.all('Amenity').values()
-    places = storage.all('Place').values()
+    amens = storage.all(Amenity).values()
+    places = storage.all(Place).values()
     users = dict([user.id, "{} {}".format(user.first_name, user.last_name)]
-                 for user in storage.all('User').values())
+                 for user in storage.all(User).values())
     return render_template('4-hbnb.html',
                            cache_id=uuid.uuid4(),
                            states=states,
