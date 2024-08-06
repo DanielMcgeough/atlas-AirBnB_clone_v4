@@ -135,13 +135,17 @@ def places_search():
     else:
         # Retrieve all places if no states or cities are provided
         places = storage.all(Place).values()
-
-    # Filter places by amenities if provided
+    
+     # Filter places by amenities if provided
     if amenities:
-        places = [place for place in places if all(amenity_id in [amenity.id for amenity in place.amenities] for amenity_id in amenities)]
+        places = [place for place in places if all(amenity in [a.id for a in place.amenities] for amenity in amenities)]
 
-    # Convert to dict
-    place_list = [place.to_dict() for place in places]
+    # Convert to dict, including amenities conversion
+    place_list = []
+    for place in places:
+        place_dict = place.to_dict()
+        place_dict['amenities'] = [amenity.to_dict() for amenity in place.amenities]  # Convert amenities to dict
+        place_list.append(place_dict)
 
     return jsonify(place_list)
 

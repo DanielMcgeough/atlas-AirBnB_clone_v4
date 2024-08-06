@@ -32,7 +32,7 @@ window.addEventListener('load', function () {
         data: JSON.stringify({ amenities: Object.keys(amenityIds) })
       }).done(function (data) {
         $('section.places').empty();
-        $('section.places').append('<h1>Places</h1>');
+        // $('section.places').append('<h1>Places</h1>');
         for (const place of data) {
           const template = `<article>
           <div class="title">
