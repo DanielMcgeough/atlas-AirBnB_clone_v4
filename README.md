@@ -173,7 +173,7 @@ Davey Hays - [Github](https://github.com/DaveyCHaysIII) / [Email](david.c.hays.i
 Danny McGeough is set to graduate from the Atlas Schools Machine Learning program in
 September of 2025. He is interested in becoming fully immersed in the machine learning
 job market and is excited to see what will come next in this growing and fascinating
-field. He is passionate about AI and in this project showcased his collaborative nature
+field. He is passionate about AI and in this project showcased his ability to be part of a team
 and willingness to work with a collaborator on a deadlined project.
 ## License
 Public Domain. No copy write protection. 
