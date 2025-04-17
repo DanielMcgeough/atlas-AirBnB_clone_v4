@@ -169,5 +169,11 @@ v4:
 Danny McGeough - [Github](https://github.com/DanielMcgeough) / [Email](danny.mcgeough@gmail.com)
 Davey Hays - [Github](https://github.com/DaveyCHaysIII) / [Email](david.c.hays.iii@gmail.com)
 
+## About Authors
+Danny McGeough is set to graduate from the Atlas Schools Machine Learning program in
+September of 2025. He is interested in becoming fully immersed in the machine learning
+job market and is excited to see what will come next in this growing and fascinating
+field. He is passionate about AI and in this project showcased his collaborative nature
+and willingness to work with a collaborator on a deadlined project.
 ## License
 Public Domain. No copy write protection. 
